@@ -43,8 +43,8 @@ const start:() => void = async () => {
          console.log(`Listening to your sevrer on port ${PORT} sir 😎`);
        }); 
     } catch (error) {
-        
+        console.log("Error connecting to the database")
+        process.exit(1)
     }
-    
 }
 start()
