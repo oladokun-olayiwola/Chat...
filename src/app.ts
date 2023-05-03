@@ -8,7 +8,7 @@ import compression from "compression";
 import http from "http"
 import morgan from "morgan"
 
-import { log } from "./shared/globals/helpers/logger";
+import { createLogger } from "./shared/globals/helpers/logger";
 import { connectDB } from "./setupDatabase";
 import { createSocketIO } from "./setupServer";
 import { StatusCodes } from "http-status-codes";
@@ -19,6 +19,7 @@ import { CustomError } from "./shared/globals/helpers/error-handler";
 dotenv.config({})
 
 const app: Application = express();
+const log = createLogger("Default")
 
 app.use(
   cookieSession({

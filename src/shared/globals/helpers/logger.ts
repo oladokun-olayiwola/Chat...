@@ -1,3 +1,5 @@
 import bunyan from "bunyan";
 
-export const log = bunyan.createLogger({ name: "my app", level: "debug" });
+export const  createLogger = (name: string) => {
+    return bunyan.createLogger({ name, level: 'debug' });
+  }
