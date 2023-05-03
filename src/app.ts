@@ -8,6 +8,7 @@ import compression from "compression";
 import http from "http"
 import morgan from "morgan"
 
+import { log } from "./shared/globals/helpers/logger";
 import { connectDB } from "./setupDatabase";
 import { createSocketIO } from "./setupServer";
 import { StatusCodes } from "http-status-codes";
@@ -43,7 +44,7 @@ app.use(
     app.use(urlencoded({extended: true, limit: "50mb"}));
     app.use(morgan("dev"))
 
-app.get("/", (_, res) => {res.send("Please")});
+app.get("/", (_, res) => { log.info("DOne"), res.send("Please")});
 
 
 app.all("*", (req: Request, res: Response) => {
@@ -51,7 +52,7 @@ app.all("*", (req: Request, res: Response) => {
 })
 
 app.use((err: IErrorResponse, _req: Request, res:Response, next: NextFunction) => {
-  console.log(err);
+  log.error(err);
   if (err instanceof CustomError) {
     return res.status(err.statusCode).json(err.serializeErrors())
   }
@@ -66,7 +67,7 @@ const start:() => void = async () => {
        await connectDB(process.env.MONGO_URI as string);
        await createSocketIO(httpServer)
        app.listen(PORT, () => {
-         console.log(`Listening to your server on port ${PORT} sir 😎`);
+         log.info(`Listening to your server on port ${PORT} sir 😎`);
        }); 
 }
 start()
