@@ -14,7 +14,7 @@ export interface IError {
 }
 
 
-class CustomError extends Error {
+ export class CustomError extends Error {
     status!: string;
     statusCode!: number;
 
@@ -73,6 +73,15 @@ export class NotFoundError extends CustomError {
 
     constructor(message: string) {
         super(message);
+    }
+}
+
+export class JoiRequestValidationError extends CustomError {
+    status = "Error";
+    statusCode = StatusCodes.BAD_REQUEST;
+
+    constructor(message: string) {
+        super(message)
     }
 }
 

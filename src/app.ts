@@ -1,5 +1,5 @@
 import dotenv from "dotenv"
-import express, { urlencoded, json, Application, } from "express";
+import express, { urlencoded, json, Application, NextFunction, Request, Response, } from "express";
 import cors from "cors";
 import hpp from "hpp";
 import helmet from "helmet";
@@ -10,6 +10,9 @@ import morgan from "morgan"
 
 import { connectDB } from "./setupDatabase";
 import { createSocketIO } from "./setupServer";
+import { StatusCodes } from "http-status-codes";
+import { IErrorResponse } from "./shared/globals/helpers/error-handler";
+import { CustomError } from "./shared/globals/helpers/error-handler";
 
 
 dotenv.config({})
@@ -42,9 +45,21 @@ app.use(
 
 app.get("/", (_, res) => {res.send("Please")});
 
+
+app.all("*", (req: Request, res: Response) => {
+     return   res.status(StatusCodes.BAD_REQUEST).json({message: `${req.originalUrl} not found`})
+})
+
+app.use((err: IErrorResponse, _req: Request, res:Response, next: NextFunction) => {
+  console.log(err);
+  if (err instanceof CustomError) {
+    return res.status(err.statusCode).json(err.serializeErrors())
+  }
+  return next()
+})
+
+
 const PORT = process.env.PORT || 4900;
-
-
 
 const start:() => void = async () => {
       const httpServer = new http.Server(app);

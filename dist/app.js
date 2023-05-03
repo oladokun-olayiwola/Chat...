@@ -46,6 +46,8 @@ const http_1 = __importDefault(require("http"));
 const morgan_1 = __importDefault(require("morgan"));
 const setupDatabase_1 = require("./setupDatabase");
 const setupServer_1 = require("./setupServer");
+const http_status_codes_1 = require("http-status-codes");
+const error_handler_1 = require("./shared/globals/helpers/error-handler");
 dotenv_1.default.config({});
 const app = (0, express_1.default)();
 app.use((0, cookie_session_1.default)({
@@ -67,6 +69,16 @@ app.use((0, express_1.json)({ limit: "50mb" }));
 app.use((0, express_1.urlencoded)({ extended: true, limit: "50mb" }));
 app.use((0, morgan_1.default)("dev"));
 app.get("/", (_, res) => { res.send("Please"); });
+app.all("*", (req, res) => {
+    return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ message: `${req.originalUrl} not found` });
+});
+app.use((err, _req, res, next) => {
+    console.log(err);
+    if (err instanceof error_handler_1.CustomError) {
+        return res.status(err.statusCode).json(err.serializeErrors());
+    }
+    return next();
+});
 const PORT = process.env.PORT || 4900;
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     const httpServer = new http_1.default.Server(app);
