@@ -16,7 +16,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -r tsconfig-paths/register src/app.ts"
+    "dev": "nodemon -r tsconfig-paths/register src/app.ts | bunyan -o short"
   },
   "keywords": [],
   "author": "",
@@ -38,6 +38,8 @@
     "morgan": "^1.10.0",
     "redis": "^4.6.6",
     "redis-server": "^1.2.2",
-    "socket.io": "^4.6.1"
+    "socket.io": "^4.6.1",
+    "ttypescript": "^1.5.15",
+    "typescript-transform-paths": "^3.4.6"
   }
 }

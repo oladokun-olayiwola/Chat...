@@ -44,12 +44,14 @@ const cookie_session_1 = __importDefault(require("cookie-session"));
 const compression_1 = __importDefault(require("compression"));
 const http_1 = __importDefault(require("http"));
 const morgan_1 = __importDefault(require("morgan"));
-const setupDatabase_1 = require("./setupDatabase");
-const setupServer_1 = require("./setupServer");
 const http_status_codes_1 = require("http-status-codes");
-const error_handler_1 = require("./shared/globals/helpers/error-handler");
+const error_handler_1 = require("@global/helpers/error-handler");
+const setupDatabase_1 = require("@root/setupDatabase");
+const setupServer_1 = require("@root/setupServer");
+const logger_1 = require("@global/helpers/logger");
 dotenv_1.default.config({});
 const app = (0, express_1.default)();
+const log = (0, logger_1.createLogger)("Server");
 app.use((0, cookie_session_1.default)({
     name: "session",
     maxAge: 24 * 7 * 60 * 60 * 1000,
@@ -68,12 +70,12 @@ app.use((0, compression_1.default)());
 app.use((0, express_1.json)({ limit: "50mb" }));
 app.use((0, express_1.urlencoded)({ extended: true, limit: "50mb" }));
 app.use((0, morgan_1.default)("dev"));
-app.get("/", (_, res) => { res.send("Please"); });
+app.get("/", (_, res) => { log.info("DOne"), res.send("Please"); });
 app.all("*", (req, res) => {
     return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ message: `${req.originalUrl} not found` });
 });
 app.use((err, _req, res, next) => {
-    console.log(err);
+    log.error(err);
     if (err instanceof error_handler_1.CustomError) {
         return res.status(err.statusCode).json(err.serializeErrors());
     }
@@ -85,7 +87,7 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, setupDatabase_1.connectDB)(process.env.MONGO_URI);
     yield (0, setupServer_1.createSocketIO)(httpServer);
     app.listen(PORT, () => {
-        console.log(`Listening to your server on port ${PORT} sir 😎`);
+        log.info(`Listening to your server on port ${PORT} sir 😎`);
     });
 });
 start();
