@@ -13,14 +13,13 @@ import { CustomError, IErrorResponse } from "@global/helpers/error-handler";
 import { connectDB } from "@root/setupDatabase";
 import { createSocketIO } from "@root/setupServer";
 import { createLogger } from "@global/helpers/logger";
-
-
-
-
+import { cloudConfig } from "@global/helpers/config";
 dotenv.config({})
 
 const app: Application = express();
 const log = createLogger("Server")
+
+
 
 app.use(
   cookieSession({
@@ -60,6 +59,9 @@ app.use((err: IErrorResponse, _req: Request, res:Response, next: NextFunction) =
   }
   return next()
 })
+
+// Cloudinary Configuration
+cloudConfig()
 
 
 const PORT = process.env.PORT || 4900;
