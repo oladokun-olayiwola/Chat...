@@ -1,5 +1,6 @@
 import dotenv from "dotenv"
 import express, { urlencoded, json, Application, NextFunction, Request, Response, } from "express";
+import Routes from "@root/routes"
 import cors from "cors";
 import hpp from "hpp";
 import helmet from "helmet";
@@ -7,19 +8,17 @@ import cookieSession from "cookie-session";
 import compression from "compression";
 import http from "http"
 import morgan from "morgan"
-import { StatusCodes } from "http-status-codes";
-
+import  StatusCodes  from "http-status-codes";
 import { CustomError, IErrorResponse } from "@global/helpers/error-handler";
 import { connectDB } from "@root/setupDatabase";
 import { createSocketIO } from "@root/setupServer";
 import { createLogger } from "@global/helpers/logger";
 import { cloudConfig } from "@global/helpers/config";
-dotenv.config({})
+import { redisConnection } from "@services/redis/redis.connection";
+dotenv.config()
 
 const app: Application = express();
 const log = createLogger("Server")
-
-
 
 app.use(
   cookieSession({
@@ -46,11 +45,7 @@ app.use(
     app.use(morgan("dev"))
 
 app.get("/", (_, res) => { log.info("DOne"), res.send("Please")});
-
-
-app.all("*", (req: Request, res: Response) => {
-     return   res.status(StatusCodes.BAD_REQUEST).json({message: `${req.originalUrl} not found`})
-})
+Routes(app)
 
 app.use((err: IErrorResponse, _req: Request, res:Response, next: NextFunction) => {
   log.error(err);
@@ -60,15 +55,20 @@ app.use((err: IErrorResponse, _req: Request, res:Response, next: NextFunction) =
   return next()
 })
 
+app.all("*", (req: Request, res: Response) => {
+     return   res.status(StatusCodes.BAD_REQUEST).json({message: `${req.originalUrl} not found`})
+})
+
 // Cloudinary Configuration
 cloudConfig()
-
 
 const PORT = process.env.PORT || 4900;
 
 const start:() => void = async () => {
       const httpServer = new http.Server(app);
        await connectDB(process.env.MONGO_URI as string);
+       log.info("Connected to MongoDB");
+       redisConnection.connect()
        await createSocketIO(httpServer)
        app.listen(PORT, () => {
          log.info(`Listening to your server on port ${PORT} sir 😎`);
