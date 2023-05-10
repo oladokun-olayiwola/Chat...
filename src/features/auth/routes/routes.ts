@@ -1,8 +1,8 @@
-import { UserController } from "@auth/controllers/signup"
+import { SignUp } from "@auth/controllers/signup"
 import { Router } from "express"
 
 const router =  Router()
 
-router.post("/signup", UserController.create)
+router.post("/signup", SignUp.create)
 
 export const AuthRouter = router
