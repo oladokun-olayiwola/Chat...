@@ -2,6 +2,7 @@ import { Server } from "socket.io";
 import { createClient } from "redis";
 import { createAdapter } from "@socket.io/redis-adapter";
 import http from "http"
+import { SocketIOPostHandler } from "@socket/posts";
 
 
 export const createSocketIO = async (httpServer: http.Server): Promise<Server> => {
@@ -17,3 +18,8 @@ export const createSocketIO = async (httpServer: http.Server): Promise<Server> =
     io.adapter(createAdapter(pubClient, subClient))
     return io
 } 
+
+export const socketIOConnections = ( io: Server): void => {
+  const postSocketHandler: SocketIOPostHandler = new SocketIOPostHandler(io);
+  postSocketHandler.listen()
+}

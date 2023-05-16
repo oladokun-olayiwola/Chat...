@@ -13,4 +13,9 @@ async function getUserByUsernameOrEmail (username: string, email: string): Promi
     return user;
 }
 
+export const getAuthUserByUsername = async (username: string): Promise<IAuthDocument> => {
+    const user: IAuthDocument = (await AuthModel.findOne({ username }).exec()) as IAuthDocument;
+    return user;
+  }
+
 export default getUserByUsernameOrEmail
