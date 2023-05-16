@@ -26,23 +26,30 @@
 
     /* Modules */
     "module": "commonjs" /* Specify what module code is generated. */,
-    "rootDir": "./src" /* Specify the root folder within your source files. */,
+    // "rootDir": "./src" /* Specify the root folder within your source files. */,
     // "moduleResolution": "node",                       /* Specify how TypeScript looks up a file from a given module specifier. */
     // "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
     "paths": {
+      "@auth/*": ["./src/features/auth/*"],
+      "@user/*": ["./src/features/user/*"],
+      "@post/*": ["./src/features/post/*"],
+      "@reaction/*": ["./src/features/reactions/*"],
+      "@comment/*": ["./src/features/comments/*"],
+      "@follower/*": ["./src/features/followers/*"],
+      "@notification/*": ["./src/features/notifications/*"],
+      "@image/*": ["./src/features/images/*"],
+      "@chat/*": ["./src/features/chat/*"],
       "@global/*": ["./src/shared/globals/*"],
       "@services/*": ["./src/shared/services/*"],
       "@socket/*": ["./src/shared/sockets/*"],
       "@worker/*": ["./src/shared/workers/*"],
-      "@auth/*": ["./src/features/auth/*"],
-      "@user/*": ["./src/features/user/*"],
       "@root/*": ["./src/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     "plugins": [
       { "transform": "typescript-transform-paths" },
       { "transform": "typescript-transform-paths", "afterDeclaration": true }
     ],
-    // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
+    "rootDirs": ["./src", "./jest.config.ts"],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
     // "types": [],                                      /* Specify type package names to be included without being referenced in a source file. */
     // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */

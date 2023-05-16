@@ -13,6 +13,8 @@ import { IUserDocument } from "@user/interfaces/user.interface";
 import { UserCache } from "@services/redis/user.cache";
 import { omit } from "lodash";
 import { authQueue } from "@services/queues/auth.queue";
+import { userQueue } from "@services/queues/user.queue";
+import JWT  from "jsonwebtoken";
 
 export class SignUp {
   @joiValidation(signupSchema)
@@ -41,7 +43,6 @@ export class SignUp {
       avatarImage,
       `${userObjectId}, true, true`
     )) as UploadApiResponse;
-    // console.log("signup", result);
 
     if (!result?.public_id) {
       throw new BadRequestError("File Upload: Error occured. Try again.");
@@ -57,11 +58,23 @@ export class SignUp {
     await UsersCache.saveUserToCache(`${userObjectId}`, uId, userDataForCache);
     omit(userDataForCache, ["uid", 'username', 'email', 'avatarColor', 'password']);
     authQueue.addAuthUserJob("AddAuthUserToDB", {value: userDataForCache});
-    res
-      .status(StatusCodes.CREATED)
-      .json({ message: "User created successsfully", authData });
+    userQueue.addUserJob("AddUserToDB", { value: userDataForCache });
+    const userJwt: string = SignUp.prototype.signToken(authData, userObjectId);
+    req.session = { jwt: userJwt };
+    res.status(StatusCodes.CREATED).json({ message: 'User created successfully', user: userDataForCache, token: userJwt });
+    }
+    private signToken(data: IAuthDocument, userObjectId: ObjectId): string {
+    return JWT.sign(
+      {
+        userId: userObjectId,
+        uId: data.uId,
+        email: data.email,
+        username: data.username,
+        avatarColor: data.avatarColor
+      },
+      process.env.JWT_TOKEN!
+    );
   }
-
   private signUpData(data: ISignUpData): IAuthDocument {
     const { _id, username, email, uId, password, avatarColor } = data;
     return {
@@ -85,7 +98,6 @@ export class SignUp {
       email,
       password,
       avatarColor,
-      // profilePicture,
       blocked: [],
       blockedBy: [],
       work: "",
