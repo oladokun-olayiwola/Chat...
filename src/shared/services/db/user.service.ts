@@ -56,4 +56,14 @@ export async function getUserByAuthId(authId: string): Promise<IUserDocument> {
   return users[0]
 }
 
+export async function getUserById(userId:string) {
+    const users: IUserDocument[] = await UserModel.aggregate([
+      { $match: { _id: new mongoose.Types.ObjectId(userId)}},
+      { $lookup: { from: 'Auth', localField: 'authId', foreignField: '_id', as: 'authId'}},
+      { $unwind: '$authId'},
+      { $project: aggregateProject()}
+    ])
+    return users[0]
+}
+
 export default getUserByUsernameOrEmail;

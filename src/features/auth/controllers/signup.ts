@@ -21,8 +21,10 @@ export class SignUp {
   @joiValidation(signupSchema)
   public async create(req: Request, res: Response): Promise<void> {
     const { username, email, password, avatarColor, avatarImage } = req.body;
-    const checkIfUserExist: IAuthDocument =
-      await getUserByUsernameOrEmail(username, email);
+    const checkIfUserExist: IAuthDocument = await getUserByUsernameOrEmail(
+      username,
+      email
+    );
     if (checkIfUserExist) {
       throw new BadRequestError("Invalid credentials Signup");
     }
@@ -65,13 +67,11 @@ export class SignUp {
 
     const userJwt: string = SignUp.prototype.signToken(authData, userObjectId);
     req.session = { jwt: userJwt };
-    res
-      .status(HTTP_STATUS.CREATED)
-      .json({
-        message: "User created successfully",
-        user: userDataForCache,
-        token: userJwt,
-      });
+    res.status(HTTP_STATUS.CREATED).json({
+      message: "User created successfully",
+      user: userDataForCache,
+      token: userJwt,
+    });
   }
 
   private signToken(data: IAuthDocument, userObjectId: ObjectId): string {

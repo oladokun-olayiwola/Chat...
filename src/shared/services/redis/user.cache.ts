@@ -3,7 +3,7 @@ import { IUserDocument } from "@user/interfaces/user.interface";
 import Logger from "bunyan";
 import { createLogger } from "@global/helpers/logger";
 import { ServerError } from "@global/helpers/error-handler";
-import { jsonParse } from "@global/helpers/helpers";
+import { jsonParser } from "@global/helpers/helpers";
 
 const log: Logger = createLogger("UserCache");
 
@@ -110,14 +110,17 @@ export class UserCache extends BaseCache {
       const response: IUserDocument = (await this.client.HGETALL(
         `users:${userId}`
       )) as unknown as IUserDocument;
-      response.createdAt = new Date(jsonParse(`${response.createdAt}`));
-      response.postsCount = jsonParse(`${response.postsCount}`)
-      response.blocked = jsonParse(`${response.blocked}`)
-      response.notifications = jsonParse(`${response.notifications}`)
-      response.quote = jsonParse(`${response.quote}`);
-      response.social = jsonParse(`${response.social}`)
-      response.blockedBy = jsonParse(``)
-      return response;
+      const parsed = jsonParser(response)
+      // response.createdAt = new Date(jsonParse(`${response.createdAt}`));
+      // response.postsCount = jsonParse(`${response.postsCount}`)
+      // response.blocked = jsonParse(`${response.blocked}`)
+      // response.notifications = jsonParse(`${response.notifications}`)
+      // response.quote = jsonParse(`${response.quote}`);
+      // response.social = jsonParse(`${response.social}`)
+      // response.blockedBy = jsonParse(`${response.blockedBy}`)
+      // response.followersCOunt = jsonParse(`${response.followersCount}`);
+      // response.followingCount = jsonParse(`${response.followingCounts}`);
+      return parsed;
     } catch (error) {
       log.error(error);
       throw new ServerError(
