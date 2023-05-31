@@ -37,9 +37,7 @@ export class SignIn {
         username: existingUser.username,
         avatarColor: existingUser.avatarColor,
       },
-      process.env.JWT_TOKEN!, {
-        expiresIn: "7d",
-      }
+      process.env.JWT_TOKEN!,
     );
     req.session = { jwt: userJwt };
     const userDocument: IUserDocument = {

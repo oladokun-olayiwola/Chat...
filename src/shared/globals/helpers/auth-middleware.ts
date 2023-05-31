@@ -5,8 +5,9 @@ import { AuthPayload } from "@auth/interfaces/auth.interface";
 
 
 export function verifyUser(req: Request, _res: Response, next: NextFunction) {
-    if(!req.session?.jwt) {
-        throw new UnAuthorizedError("TOken is not available. Please login again")
+  console.log(req.session);
+    if (!req.session?.jwt) {
+      throw new UnAuthorizedError("Token is not available. Please login again");
     }
     try {
         const payload: AuthPayload = JWT.verify(req.session?.jwt, process.env.JWT_TOKEN!) as AuthPayload
@@ -19,7 +20,7 @@ export function verifyUser(req: Request, _res: Response, next: NextFunction) {
 
 export function checkAuthentication(req: Request, _res: Response, next: NextFunction) {
     if (!req.session?.jwt) {
-      throw new UnAuthorizedError("TOken is not available. Please login again");
+      throw new UnAuthorizedError("Token is not available. Please login again");
     }
     next();
 }
