@@ -1,3 +1,5 @@
+// import { IUserDocument } from "@user/interfaces/user.interface";
+
 export function firstLetterToUpperCase(value: string) {
   const valueLower = value.toLowerCase();
   return valueLower
@@ -22,3 +24,26 @@ export function generateRandomIntegers(integerLength: number): number {
     }
     return parseInt(result, 10);
   }
+
+export const jsonParse = (prop: string) => {
+  try {
+    const parsed = JSON.parse(prop)
+    return parsed
+  } catch (error) {
+    return prop;
+  }
+}
+
+export const jsonParser = (prop: any) => {
+  let firstElement;
+  for (const key in prop) {
+    const element = prop[key];
+    firstElement = element;
+  }
+
+  try {
+    JSON.parse(firstElement);
+  } catch (error) {
+    return firstElement
+  }
+};
