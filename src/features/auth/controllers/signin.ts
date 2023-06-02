@@ -8,7 +8,7 @@ import { IAuthDocument } from "@auth/interfaces/auth.interface";
 import { BadRequestError } from "@global/helpers/error-handler";
 import { getUserByAuthId }  from "@services/db/user.service";
 import { IUserDocument } from "@user/interfaces/user.interface";
-import { resetPasswordTemplate } from "@services/emails/templates/reset-password/reset-password-template";
+// import { resetPasswordTemplate } from "@services/emails/templates/reset-password/reset-password-template";
 
 export class SignIn {
   @joiValidation(loginSchema)
@@ -40,12 +40,12 @@ export class SignIn {
       },
       process.env.JWT_TOKEN!,
     );
-    const resetLink = `${process.env.CLIENT_URL}/reset-password?token=122331343521342345563`;
-    // const templateParams = {
-    //   username: existingUser.username,
-    //   resetLink
-    // }
-    const template: string = resetPasswordTemplate(existingUser.username);
+    // const resetLink = `${process.env.CLIENT_URL}/reset-password?token=122331343521342345563`;
+    // // const templateParams = {
+    // //   username: existingUser.username,
+    // //   resetLink
+    // // }
+    // const template: string = resetPasswordTemplate(existingUser.username);
 
     req.session = { jwt: userJwt };
     const userDocument: IUserDocument = {
