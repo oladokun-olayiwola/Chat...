@@ -1,8 +1,8 @@
 import { IAuthJob } from "@auth/interfaces/auth.interface";
-import { baseQueue } from "./base.queue";
+import { BaseQueue } from "./base.queue";
 import { addAuthUserToDb } from "@worker/auth.worker";
 
-class AuthQueue extends baseQueue {
+class AuthQueue extends BaseQueue {
     constructor() {
         super("auth");
         this.processJob("addAuthUserToDb", 5, addAuthUserToDb)
