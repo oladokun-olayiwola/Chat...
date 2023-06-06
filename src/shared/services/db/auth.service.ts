@@ -30,4 +30,14 @@ export const getAuthUserByUsername = async (username: string): Promise<IAuthDocu
         passwordResetExpires: tokenExpiration
     })
   }
+
+  export async function getAuthUserByToken(token:string) {
+      const user: IAuthDocument = ( await AuthModel.findOne({ 
+        passwordResetToken: token,
+        passwordResetExpires: { $gt: Date.now()}
+      }).exec()) as IAuthDocument; 
+      return user;
+  }
+
+
 export default getUserByUsernameOrEmail
