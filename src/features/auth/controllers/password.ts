@@ -71,7 +71,6 @@ export class Password {
       email: existingUser.email,
       ipaddress: publicIP.address(),
       date: moment().format('DD/MM/YYYY HH:mm')
-
     }
 
     const template: string = resetPasswordTemplate(
