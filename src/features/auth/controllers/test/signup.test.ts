@@ -3,14 +3,15 @@ import { Request, Response } from "express"
 import { SignUp } from "../signup"
 import { CustomError } from "@global/helpers/error-handler"
 
-jest.mock("@service/queues/base.queue");
-jest.mock("@service/redis/user.cache");
-jest.mock("@service/queues/user.queue");
-jest.mock("@service/queues/auth.queue");
+jest.mock("@services/db/auth.service");
+jest.mock("@services/queues/base.queue");
+jest.mock("@services/redis/user.cache");
+jest.mock("@services/queues/user.queue");
+jest.mock("@services/queues/auth.queue");
 jest.mock("@global/helpers/cloudinaryUpload");
-jest.mock("@service/db/auth.service");
 
 describe ("Signup", () => {
+
     it("should throw an error if username is not available", () => {
         const req: Request = authMockRequest({}, {
             username: '',
