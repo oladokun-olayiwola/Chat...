@@ -27,4 +27,57 @@ describe ("Signup", () => {
             expect(error.serializeErrors().message).toEqual('Username is a required field')
         })
     })
-})
+
+    it("should throw an error if username length is less than minimum length", () => {
+      const req: Request = authMockRequest(
+        {},
+        {
+          username: "general",
+          email: "whatever@test.com",
+          password: "anything",
+          avatarColor: "red",
+          avatarImage: "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==",
+        }
+      ) as Request;
+      const res: Response = authMockResponse();
+      SignUp.prototype.create(req, res).catch((error: CustomError) => {
+        expect(error.statusCode).toEqual(400);
+        expect(error.serializeErrors().message).toEqual("Ínvalid Username");
+      });
+    });
+
+    it("should throw an error if username length is greater than maximum length", () => {
+        const req: Request = authMockRequest(
+          {},
+          {
+            username: "general",
+            email: "whatever@test.com",
+            password: "anything",
+            avatarColor: "red",
+            avatarImage: "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==",
+          }
+        ) as Request;
+        const res: Response = authMockResponse();
+        SignUp.prototype.create(req, res).catch((error: CustomError) => {
+            expect(error.statusCode).toEqual(400);
+            expect(error.serializeErrors().message).toEqual('Ínvalid Username');
+        })
+    })
+    it("should throw an error if email is inavlid", () => {
+      const req: Request = authMockRequest(
+        {},
+        {
+          username: "general",
+          email: "whatever@test.com",
+          password: "anything",
+          avatarColor: "red",
+          avatarImage: "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==",
+        }
+      ) as Request;
+      const res: Response = authMockResponse();
+      SignUp.prototype.create(req, res).catch((error: CustomError) => {
+        expect(error.statusCode).toEqual(400);
+        expect(error.serializeErrors().message).toEqual("Ínvalid Username");
+      });
+    });
+})  
