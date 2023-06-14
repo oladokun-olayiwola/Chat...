@@ -1,17 +1,18 @@
 import Queue, { Job } from "bull";
 import Logger from "bunyan";
+import { IEmailJob } from "@user/interfaces/user.interface";
 import { createLogger } from "@global/helpers/logger";
 import { createBullBoard } from "@bull-board/api";
 import { BullAdapter } from "@bull-board/api/bullAdapter";
 import { ExpressAdapter } from "@bull-board/express";
 import { IAuthJob } from "@auth/interfaces/auth.interface";
 
-type IBaseJobData = IAuthJob;
+type IBaseJobData = IAuthJob | IEmailJob;
 
 let bullAdapters: BullAdapter[] = [];
 
 export let serverAdapter: ExpressAdapter = new ExpressAdapter();
-export abstract class baseQueue {
+export abstract class BaseQueue {
   queue: Queue.Queue;
   log: Logger;
 

@@ -26,15 +26,12 @@ export class SignUp {
       email
     );
     if (checkIfUserExist) {
-      throw new BadRequestError("Invalid credentials Signup");
+      throw new BadRequestError("Invalid credentials");
     }
 
     const authObjectId: ObjectId = new ObjectId();
     const userObjectId: ObjectId = new ObjectId();
     const uId = `${generateRandomIntegers(12)}`;
-    // the reason we are using SignUp.prototype.signupData and not this.signupData is because
-    // of how we invoke the create method in the routes method.
-    // the scope of the this object is not kept when the method is invoked
     const authData: IAuthDocument = SignUp.prototype.signupData({
       _id: authObjectId,
       uId,

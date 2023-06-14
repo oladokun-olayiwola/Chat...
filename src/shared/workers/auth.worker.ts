@@ -19,15 +19,4 @@ export const addAuthUserToDb =  async (job: Job, done: DoneCallback): Promise<vo
   };
 }
   
-//async (job: Job, done: DoneCallback): Promise<void> => {
-//     try {
-//     const { value } = job.data
-//     await createAuthUser(value)
-//     job.progress(100)
-//     done(null, job.data)
-//     }
-//     catch (e) {
-//         log.error(e)
-//         done(e as Error)
-//     }
-// }
+

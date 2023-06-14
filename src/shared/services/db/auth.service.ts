@@ -18,4 +18,26 @@ export const getAuthUserByUsername = async (username: string): Promise<IAuthDocu
     return user;
   }
 
+
+  export const getUserByEmail = async (email: string): Promise<IAuthDocument> => {
+    const user: IAuthDocument = (await AuthModel.findOne({ email }).exec()) as IAuthDocument;
+    return user;
+  }
+
+  export async function updatePasswordToken(authId: string, token: string, tokenExpiration: number): Promise<void> {
+    await AuthModel.updateOne({_id: authId}, {
+        passwordResetToken: token,
+        passwordResetExpires: tokenExpiration
+    })
+  }
+
+  export async function getAuthUserByToken(token:string) {
+      const user: IAuthDocument = ( await AuthModel.findOne({ 
+        passwordResetToken: token,
+        passwordResetExpires: { $gt: Date.now()}
+      }).exec()) as IAuthDocument; 
+      return user;
+  }
+
+
 export default getUserByUsernameOrEmail
