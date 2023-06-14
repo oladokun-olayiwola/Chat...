@@ -36,7 +36,7 @@ const config: Config.InitialOptions = {
     "@image/(.*)": ["<rootDir>/src/features/images/$1"],
     "@chat/(.*)": ["<rootDir>/src/features/chat/$1"],
     "@global/(.*)": ["<rootDir>/src/shared/globals/$1"],
-    "@service/(.*)": ["<rootDir>/src/shared/services/$1"],
+    "@services/(.*)": ["<rootDir>/src/shared/services/$1"],
     "@socket/(.*)": ["<rootDir>/src/shared/sockets/$1"],
     "@worker/(.*)": ["<rootDir>/src/shared/workers/$1"],
     "@root/(.*)": ["<rootDir>/src/$1"],

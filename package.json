@@ -23,7 +23,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage=true -w=1 --forceExit --detectOpenHandles --watchAll=false ",
     "dev": "nodemon -r tsconfig-paths/register src/app.ts | bunyan -o short"
   },
   "keywords": [],

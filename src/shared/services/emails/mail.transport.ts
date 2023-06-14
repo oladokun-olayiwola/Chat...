@@ -27,7 +27,7 @@ const developmentEmailSender = async ( receiverEmail: string, subject: string, b
   const transporter: Mail = nodemailer.createTransport({
     host: "smtp.ethereal.email",
     port: 587,
-    secure: false,
+    // secure: false,
     auth: {
       user: process.env.SENDER_EMAIL,
       pass: process.env.SENDER_EMAIL_PASSWORD,
