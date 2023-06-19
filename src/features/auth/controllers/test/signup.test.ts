@@ -1,7 +1,9 @@
-import { authMockRequest, authMockResponse } from "@root/mocks/auth.mock"
+import { authMock, authMockRequest, authMockResponse } from "@root/mocks/auth.mock"
 import { Request, Response } from "express"
 import { SignUp } from "../signup"
 import { CustomError } from "@global/helpers/error-handler"
+import { authServiceTest } from "@services/db/auth.service.test";
+
 
 jest.mock("@services/db/auth.service");
 jest.mock("@services/queues/base.queue");
@@ -42,7 +44,7 @@ describe ("Signup", () => {
       const res: Response = authMockResponse();
       SignUp.prototype.create(req, res).catch((error: CustomError) => {
         expect(error.statusCode).toEqual(400);
-        expect(error.serializeErrors().message).toEqual("Ínvalid Username");
+        expect(error.serializeErrors().message).toEqual("Invalid username");
       });
     });
 
@@ -60,7 +62,7 @@ describe ("Signup", () => {
         const res: Response = authMockResponse();
         SignUp.prototype.create(req, res).catch((error: CustomError) => {
             expect(error.statusCode).toEqual(400);
-            expect(error.serializeErrors().message).toEqual('Ínvalid Username');
+            expect(error.serializeErrors().message).toEqual('Invalid username');
         })
     })
     it("should throw an error if email is inavlid", () => {
@@ -77,7 +79,7 @@ describe ("Signup", () => {
       const res: Response = authMockResponse();
       SignUp.prototype.create(req, res).catch((error: CustomError) => {
         expect(error.statusCode).toEqual(400);
-        expect(error.serializeErrors().message).toEqual("Invalid Username");
+        expect(error.serializeErrors().message).toEqual("Invalid username");
       });
     });
 
@@ -113,7 +115,7 @@ describe ("Signup", () => {
       const res: Response = authMockResponse();
       SignUp.prototype.create(req, res).catch((error: CustomError) => {
         expect(error.statusCode).toEqual(400);
-        expect(error.serializeErrors().message).toEqual("Ínvalid Password");
+        expect(error.serializeErrors().message).toEqual("Invalid Password");
       });
     });
 
@@ -134,4 +136,25 @@ describe ("Signup", () => {
             expect(error.serializeErrors().message).toEqual('Invalid Password');
         })
     })
+
+    it("should throw unauthorize error is user already exist", () => {
+      const req: Request = authMockRequest(
+        {},
+        {
+          username: "Manny",
+          email: "manny@test.com",
+          password: "qwerty",
+          avatarColor: "red",
+          avatarImage: "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==",
+        }
+      ) as Request;
+      const res: Response = authMockResponse();
+
+      jest
+        .spyOn(authServiceTest, "getUserByUsernameOrEmail").mockResolvedValue(authMock);
+      SignUp.prototype.create(req, res).catch((error: CustomError) => {
+        expect(error.statusCode).toEqual(400);
+        expect(error.serializeErrors().message).toEqual("Invalid credentials");
+      });
+    });
 })  
