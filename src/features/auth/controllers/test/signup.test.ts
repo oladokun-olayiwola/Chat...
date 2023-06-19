@@ -99,4 +99,39 @@ describe ("Signup", () => {
       });
     });
 
+    it("should throw an error if password length is less than minimum length", () => {
+      const req: Request = authMockRequest(
+        {},
+        {
+          username: "general",
+          email: "whatever@test.com",
+          password: "89",
+          avatarColor: "red",
+          avatarImage: "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==",
+        }
+      ) as Request;
+      const res: Response = authMockResponse();
+      SignUp.prototype.create(req, res).catch((error: CustomError) => {
+        expect(error.statusCode).toEqual(400);
+        expect(error.serializeErrors().message).toEqual("Ínvalid Password");
+      });
+    });
+
+    it("should throw an error if password length is greater than maximum length", () => {
+        const req: Request = authMockRequest(
+          {},
+          {
+            username: "general",
+            email: "whatever@test.com",
+            password: "anythingthatwillmakeitinsanelylongsworksyeah?",
+            avatarColor: "red",
+            avatarImage: "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==",
+          }
+        ) as Request;
+        const res: Response = authMockResponse();
+        SignUp.prototype.create(req, res).catch((error: CustomError) => {
+            expect(error.statusCode).toEqual(400);
+            expect(error.serializeErrors().message).toEqual('Invalid Password');
+        })
+    })
 })  
