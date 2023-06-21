@@ -8,7 +8,7 @@ export async function AddUserData(data: IAuthDocument): Promise<void> {
   await UserModel.create(data);
 }
 
-async function getUserByUsernameOrEmail(
+export async function getUserByUsernameOrEmail(
   username: string,
   email: string
 ): Promise<IAuthDocument> {
@@ -65,5 +65,3 @@ export async function getUserById(userId:string) {
     ])
     return users[0]
 }
-
-export default getUserByUsernameOrEmail;
