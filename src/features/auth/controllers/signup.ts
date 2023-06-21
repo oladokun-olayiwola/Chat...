@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { joiValidation } from "@global/decorators/joi-validation-decorator";
 import { signupSchema } from "@auth/schemes/signup";
 import { IAuthDocument, ISignUpData } from "@auth/interfaces/auth.interface";
-import getUserByUsernameOrEmail from "@services/db/auth.service";
+import { getUserByUsernameOrEmail } from "@services/db/auth.service";
 import { UploadApiResponse } from "cloudinary";
 import { uploads } from "@global/helpers/cloudinaryUpload";
 import HTTP_STATUS from "http-status-codes";
