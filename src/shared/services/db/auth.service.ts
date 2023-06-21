@@ -5,7 +5,7 @@ export async function createAuthUser(data: IAuthDocument): Promise<void> {
     await AuthModel.create(data)
 }
 
-async function getUserByUsernameOrEmail (username: string, email: string): Promise<IAuthDocument> {
+export async function getUserByUsernameOrEmail (username: string, email: string): Promise<IAuthDocument> {
     const query = {
         $or: [{ username}, {email}]
     }
@@ -40,4 +40,3 @@ export const getAuthUserByUsername = async (username: string): Promise<IAuthDocu
   }
 
 
-export default getUserByUsernameOrEmail
