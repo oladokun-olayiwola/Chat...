@@ -80,7 +80,7 @@ export class SignUp {
         username: data.username,
         avatarColor: data.avatarColor,
       },
-      process.env.JWT_TOKEN!
+      process.env.JWT_TOKEN as string
     );
   }
 

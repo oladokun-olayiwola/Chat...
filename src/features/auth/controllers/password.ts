@@ -58,7 +58,7 @@ export class Password {
     }
     const existingUser: IAuthDocument = await getUserByEmail(token);
     if (!existingUser) {
-      throw new BadRequestError("Reset TOken has expired");
+      throw new BadRequestError("Reset Token has expired");
     }
 
     existingUser.password = password

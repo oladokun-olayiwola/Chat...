@@ -33,7 +33,7 @@ export class SignIn {
         username: existingUser.username,
         avatarColor: existingUser.avatarColor,
       },
-      process.env.JWT_TOKEN!
+      process.env.JWT_TOKEN as string
     );
     req.session = { jwt: userJwt };
     const userDocument: IUserDocument = {
