@@ -10,8 +10,6 @@ export const currentUser = async (req: Request, res: Response) => {
     let isUser = false;
     let token = null;
     let user = null;
-
-    console.log(req.currentUser?.userId);
     
     const cachedUser: IUserDocument = await userCache.getUserFromCache(`${req.currentUser?.userId}`) as IUserDocument
     const existingUser: IUserDocument = cachedUser
