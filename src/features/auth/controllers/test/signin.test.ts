@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  authMock,
+  // authMock,
   authMockRequest,
   authMockResponse,
 } from "@root/mocks/auth.mock";
@@ -8,8 +8,8 @@ import { Request, Response } from "express";
 import { CustomError } from "@global/helpers/error-handler";
 import { SignIn } from "@auth/controllers/signin";
 import * as authService  from "@services/db/auth.service";
-import * as userService from "@services/db/user.service";
-import { mergedAuthAndUserData } from "@root/mocks/user.mock";
+// import * as userService from "@services/db/user.service";
+// import { mergedAuthAndUserData } from "@root/mocks/user.mock";
 
 const USERNAME = "Manny";
 const PASSWORD = "manny1";
