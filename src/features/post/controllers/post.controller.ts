@@ -5,6 +5,7 @@ import { postSchema } from "@post/schemes/post.schemes";
 import { IPostDocument } from "@post/interfaces/post.interface";
 import { StatusCodes } from "http-status-codes";
 import { PostCache } from "@services/redis/post.cache";
+import { SocketIOPostHandler, socketIOPostObject } from "@socket/posts";
 
 export class Create {
   @joiValidation(postSchema)
@@ -31,7 +32,7 @@ export class Create {
       createdAt: new Date(),
       reactions: { like: 0, love: 0, happy: 0, sad: 0, wow: 0, angry: 0 },
     } as IPostDocument;
-
+    socketIOPostObject.emit('add post', createdPost)
     await postCache.savePostToCache({
       key: postObjectId,
       currentUserId: `${req.currentUser!.userId}`,
@@ -41,6 +42,6 @@ export class Create {
 
     res
       .status(StatusCodes.CREATED)
-      .json({ message: "Post Created Successfully" });
+      .json({message: "Post Created Successfully"});
   }
 }
