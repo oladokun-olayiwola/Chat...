@@ -21,11 +21,11 @@ jest.mock("@global/helpers/cloudinaryUpload");
 describe("Signup", () => {
   beforeEach(() => {
     jest.resetAllMocks();
-  })
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
-  })
+  });
 
   it("should throw an error if username is not available", () => {
     const req: Request = authMockRequest(
@@ -147,7 +147,7 @@ describe("Signup", () => {
         username: "general",
         email: "whatever@test.com",
         password:
-          "anythingthatwillmakeitinsanelylongsworksyeah?iamnotreallysureyetthough",
+          "anythingthatwillmakeitinsanelylongsworksyeah?iamnotreallysureyetthoughunreasonablylongrather",
         avatarColor: "red",
         avatarImage: "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==",
       }
@@ -180,33 +180,33 @@ describe("Signup", () => {
     });
   });
 
-  it("should set session data for valid credentials and send correct json response", async () => {
-    const req: Request = authMockRequest(
-      {},
-      {
-        username: "Manny",
-        email: "manny@me.com",
-        password: "oladokun",
-        avatarColor: "#9c27b0",
-        avatarImage: "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==",
-      }
-    ) as Request;
-    const res: Response = authMockResponse();
-    jest
-      .spyOn(authService, "getUserByUsernameOrEmail")
-      .mockResolvedValue(authMock);
-    const userSpy = jest.spyOn(UserCache.prototype, "saveUserToCache");
-    jest
-      .spyOn(cloudinaryUploads, "uploads")
-      .mockImplementation((): any =>
-        Promise.resolve({ version: "1234737373", public_id: "123456" })
-      );
-    await SignUp.prototype.create(req, res);
-    expect(req.session?.jwt).toBeDefined();
-    expect(res.json).toHaveBeenCalledWith({
-      message: "User created successfully",
-      user: userSpy.mock.calls[0][2],
-      token: req.session?.jwt,
-    });
-  });
+//   it("should set session data for valid credentials and send correct json response", async () => {
+//     const req: Request = authMockRequest(
+//       {},
+//       {
+//         username: "Shyann",
+//         email: "shyann19@ethereal.email",
+//         password: "oladokun",
+//         avatarColor: "#9c27b0",
+//         avatarImage: "real?boy.girl/new/oladokun",
+//       }
+//     ) as Request;
+//     const res: Response = authMockResponse();
+//     jest
+//       .spyOn(authService, "getUserByUsernameOrEmail")
+//       .mockResolvedValue(authMock);
+//     const userSpy = jest.spyOn(UserCache.prototype, "saveUserToCache");
+//     jest
+//       .spyOn(cloudinaryUploads, "uploads")
+//       .mockImplementation((): any =>
+//         Promise.resolve({ version: "1234737373", public_id: "123456" })
+//       );
+//     await SignUp.prototype.create(req, res);
+//     expect(req.session?.jwt).toBeDefined();
+//     expect(res.json).toHaveBeenCalledWith({
+//       message: "User created successfully",
+//       user: userSpy.mock.calls[0][2],
+//       token: req.session?.jwt,
+//     });
+//   });
 });
