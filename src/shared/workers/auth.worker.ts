@@ -15,7 +15,7 @@ export const addAuthUserToDb =  async (job: Job, done: DoneCallback): Promise<vo
     return job.data;
   } catch (error) {
     log.error("addUserAuth", error);
-    throw error;
+    done(error as Error)
   };
 }
   
