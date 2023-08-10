@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  // authMock,
+  authMock,
   authMockRequest,
   authMockResponse,
 } from "@root/mocks/auth.mock";
@@ -8,8 +8,8 @@ import { Request, Response } from "express";
 import { CustomError } from "@global/helpers/error-handler";
 import { SignIn } from "@auth/controllers/signin";
 import * as authService  from "@services/db/auth.service";
-// import * as userService from "@services/db/user.service";
-// import { mergedAuthAndUserData } from "@root/mocks/user.mock";
+import * as userService from "@services/db/user.service";
+import { mergedAuthAndUserData } from "@root/mocks/user.mock";
 
 const USERNAME = "Manny";
 const PASSWORD = "manny1";
@@ -148,27 +148,27 @@ describe("SignIn", () => {
     });
   });
 
-//   it("should set session data for valid credentials and send correct json response", async () => {
-//     const req: Request = authMockRequest(
-//       {},
-//       { username: USERNAME, password: PASSWORD }
-//     ) as Request;
-//     const res: Response = authMockResponse();
-//     authMock.comparePassword = () => Promise.resolve(true);
-//     jest
-//       .spyOn(authService, "getAuthUserByUsername")
-//       .mockResolvedValue(authMock);
-//     jest
-//       .spyOn(userService, "getUserByAuthId")
-//       .mockResolvedValue(mergedAuthAndUserData);
+  it("should set session data for valid credentials and send correct json response", async () => {
+    const req: Request = authMockRequest(
+      {},
+      { username: "Gene", password: "oladokun" }
+    ) as Request;
+    const res: Response = authMockResponse();
+    authMock.comparePassword = () => Promise.resolve(true);
+    jest
+      .spyOn(authService, "getAuthUserByUsername")
+      .mockResolvedValue(authMock);
+    jest
+      .spyOn(userService, "getUserByAuthId")
+      .mockResolvedValue(mergedAuthAndUserData);
 
-//     await SignIn.prototype.read(req, res);
-//     expect(req.session?.jwt).toBeDefined();
-//     expect(res.status).toHaveBeenCalledWith(200);
-//     expect(res.json).toHaveBeenCalledWith({
-//       message: "User login successfully",
-//       user: mergedAuthAndUserData,
-//       token: req.session?.jwt,
-//     });
-//   });
+    await SignIn.prototype.read(req, res);
+    expect(req.session?.jwt).toBeDefined();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      message: "User login successfully",
+      user: mergedAuthAndUserData,
+      token: req.session?.jwt,
+    });
+  });
 });
