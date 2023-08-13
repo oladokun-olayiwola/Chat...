@@ -6,6 +6,7 @@ import { IPostDocument } from "@post/interfaces/post.interface";
 import { StatusCodes } from "http-status-codes";
 import { PostCache } from "@services/redis/post.cache";
 import { SocketIOPostHandler, socketIOPostObject } from "@socket/posts";
+import { postQueue } from "@services/queues/post.queue";
 
 export class Create {
   @joiValidation(postSchema)
@@ -39,7 +40,10 @@ export class Create {
       uId: `${req.currentUser!.uId}`,
       createdPost,
     });
-
+    postQueue.addPostJob("addPostToDB", {
+      key: req.currentUser!.userId,
+      value: createdPost,
+    });
     res
       .status(StatusCodes.CREATED)
       .json({message: "Post Created Successfully"});
