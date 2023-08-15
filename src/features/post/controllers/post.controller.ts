@@ -5,7 +5,7 @@ import { postSchema } from "@post/schemes/post.schemes";
 import { IPostDocument } from "@post/interfaces/post.interface";
 import { StatusCodes } from "http-status-codes";
 import { PostCache } from "@services/redis/post.cache";
-import { SocketIOPostHandler, socketIOPostObject } from "@socket/posts";
+import { socketIOPostObject } from "@socket/posts";
 import { postQueue } from "@services/queues/post.queue";
 
 export class Create {
