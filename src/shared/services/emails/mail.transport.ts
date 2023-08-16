@@ -27,7 +27,6 @@ const developmentEmailSender = async ( receiverEmail: string, subject: string, b
   const transporter: Mail = nodemailer.createTransport({
     host: "smtp.ethereal.email",
     port: 587,
-    // secure: false,
     auth: {
       user: process.env.SENDER_EMAIL,
       pass: process.env.SENDER_EMAIL_PASSWORD,
@@ -40,7 +39,7 @@ const developmentEmailSender = async ( receiverEmail: string, subject: string, b
       html: body,
   };
   try {
-      await transporter.sendMail(mailOptions);
+      transporter.sendMail(mailOptions);
       log.info("Email sent succesfully -- Development");
   } catch (error) {
     log.error("Error Sending Email", error)
