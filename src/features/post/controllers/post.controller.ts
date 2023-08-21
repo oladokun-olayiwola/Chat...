@@ -48,4 +48,23 @@ export class Create {
       .status(StatusCodes.CREATED)
       .json({message: "Post Created Successfully"});
   }
+
+    @joiValidation(postSchema)
+  public async updatePost(req:Request ,res :Response){
+        const {
+          post,
+          bgColor,
+          privacy,
+          gifUrl,
+          profilePicture,
+          feelings,
+          image,
+        } = req.body;
+        console.log(post, bgColor, privacy, gifUrl, profilePicture, feelings, image);
+
+            res
+              .status(StatusCodes.CREATED)
+              .json({ message: "Post created with image successfully" });
+
+  }
 }
