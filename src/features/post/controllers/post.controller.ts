@@ -15,8 +15,7 @@ const postCache: PostCache = new PostCache();
 export class Create {
   @joiValidation(postSchema)
   public async post(req: Request, res: Response): Promise<void> {
-    const { post, bgColor, privacy, gifUrl, profilePicture, feelings } =
-      req.body;
+    const { post, bgColor, privacy, gifUrl, profilePicture, feelings } = req.body;
 
     const postObjectId: ObjectId = new ObjectId();
     const createdPost: IPostDocument = {
