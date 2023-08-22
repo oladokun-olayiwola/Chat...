@@ -7,6 +7,9 @@ import { StatusCodes } from "http-status-codes";
 import { PostCache } from "@services/redis/post.cache";
 import { socketIOPostObject } from "@socket/posts";
 import { postQueue } from "@services/queues/post.queue";
+import { uploads } from "@global/helpers/cloudinaryUpload";
+import { BadRequestError } from "@global/helpers/error-handler";
+import { UploadApiResponse } from "cloudinary";
 
 export class Create {
   @joiValidation(postSchema)
@@ -33,7 +36,7 @@ export class Create {
       createdAt: new Date(),
       reactions: { like: 0, love: 0, happy: 0, sad: 0, wow: 0, angry: 0 },
     } as IPostDocument;
-    socketIOPostObject.emit('add post', createdPost)
+    socketIOPostObject.emit("add post", createdPost);
     await postCache.savePostToCache({
       key: postObjectId,
       currentUserId: `${req.currentUser!.userId}`,
@@ -46,25 +49,28 @@ export class Create {
     });
     res
       .status(StatusCodes.CREATED)
-      .json({message: "Post Created Successfully"});
+      .json({ message: "Post Created Successfully" });
   }
 
-    @joiValidation(postSchema)
-  public async updatePost(req:Request ,res :Response){
-        const {
-          post,
-          bgColor,
-          privacy,
-          gifUrl,
-          profilePicture,
-          feelings,
-          image,
-        } = req.body;
-        console.log(post, bgColor, privacy, gifUrl, profilePicture, feelings, image);
-
-            res
-              .status(StatusCodes.CREATED)
-              .json({ message: "Post created with image successfully" });
-
+  @joiValidation(postSchema)
+  public async PostwithImage(req: Request, res: Response) {
+    const {
+      // post,
+      // bgColor,
+      //  privacy,
+      // gifUrl,
+      //  profilePicture,
+      //  feelings,
+      image,
+    } = req.body;
+    const result: UploadApiResponse = (await uploads(
+      image
+    )) as UploadApiResponse;
+    if (!result?.public_id) {
+      throw new BadRequestError(result?.message);
+    }
+    res
+      .status(StatusCodes.CREATED)
+      .json({ message: "Post created with image successfully" });
   }
 }
