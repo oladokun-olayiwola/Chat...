@@ -1,6 +1,9 @@
+import { createLogger } from "@global/helpers/logger";
 import { Server, Socket } from "socket.io";
 
 export let socketIOPostObject: Server;
+const log = createLogger("Post Server");
+
 export class SocketIOPostHandler {
   private io: Server;
 
@@ -10,7 +13,7 @@ export class SocketIOPostHandler {
 
   public listen(): void {
     this.io.on("connection", (_socket: Socket) => {
-        console.log("Post Socket IO handler")
+        log.info("Post Socket IO handler")
     })}
 
 }
