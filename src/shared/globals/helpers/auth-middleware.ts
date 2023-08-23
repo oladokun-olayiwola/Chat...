@@ -5,7 +5,6 @@ import { AuthPayload } from "@auth/interfaces/auth.interface";
 
 
 export function verifyUser(req: Request, _res: Response, next: NextFunction) {
-  console.log(req.session);
     if (!req.session?.jwt) {
       throw new UnAuthorizedError("Token is not available. Please login again");
     }

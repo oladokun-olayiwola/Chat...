@@ -7,8 +7,8 @@ import { Request, Response } from "express";
 import { SignUp } from "../signup";
 import { CustomError } from "@global/helpers/error-handler";
 import * as authService from "@services/db/auth.service";
-import { UserCache } from "@services/redis/user.cache";
-import * as cloudinaryUploads from "@global/helpers/cloudinaryUpload";
+// import { UserCache } from "@services/redis/user.cache";
+// import * as cloudinaryUploads from "@global/helpers/cloudinaryUpload";
 
 jest.useFakeTimers()
 jest.mock("@services/db/auth.service");
