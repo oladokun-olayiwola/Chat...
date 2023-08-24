@@ -9,6 +9,7 @@ export class SocketIOPostHandler {
 
   constructor(io: Server) {
     this.io = io;
+    socketIOPostObject = io;
   }
 
   public listen(): void {

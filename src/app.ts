@@ -11,10 +11,11 @@ import morgan from "morgan"
 import  StatusCodes  from "http-status-codes";
 import { CustomError, IErrorResponse } from "@global/helpers/error-handler";
 import { connectDB } from "@root/setupDatabase";
-import { createSocketIO } from "@root/setupServer";
+import { createSocketIO, socketIOConnections } from "@root/setupServer";
 import { createLogger } from "@global/helpers/logger";
 import { cloudConfig } from "@global/helpers/config";
 import { redisConnection } from "@services/redis/redis.connection";
+import { Server } from "socket.io";
 dotenv.config()
 
 const app: Application = express();
@@ -65,10 +66,11 @@ const PORT = process.env.PORT || 4900;
 
 const start:() => void = async () => {
       const httpServer = new http.Server(app);
+      const socketIO: Server = await createSocketIO(httpServer);
        await connectDB(process.env.MONGO_URI as string);
        log.info("Connected to MongoDB");
        redisConnection.connect()
-       await createSocketIO(httpServer)
+       socketIOConnections(socketIO)
        app.listen(PORT, () => {
          log.info(`Listening to your server on port ${PORT} sir 😎`);
        }); 
