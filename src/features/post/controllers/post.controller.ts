@@ -49,7 +49,7 @@ export class Create {
     });
     res
       .status(StatusCodes.CREATED)
-      .json({ message: "Post Created Successfully" });
+      .json({ message: "Post Created Successfully!" });
   }
 
   @joiValidation(postSchema)
