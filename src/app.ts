@@ -44,7 +44,7 @@ app.use(
     app.use(urlencoded({extended: true, limit: "50mb"}));
     app.use(morgan("dev"))
 
-app.get("/", (_, res) => { log.info("DOne"), res.send("Please")});
+app.get("/", (_, res) => { log.info("Done"), res.send("Please")});
 Routes(app)
 
 app.use((err: IErrorResponse, _req: Request, res:Response, next: NextFunction) => {
