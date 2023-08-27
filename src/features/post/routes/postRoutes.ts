@@ -5,7 +5,7 @@ const router = Router();
 
 
 router.route("/").post(checkAuthentication, Create.prototype.post);
-router.route("/image").post(checkAuthentication, Create.prototype.PostwithImage);
+router.route("/image/post").post(checkAuthentication, Create.prototype.PostwithImage);
 
 
 export const PostRouter = router;
