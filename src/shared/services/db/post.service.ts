@@ -12,4 +12,4 @@ class PostService {
   }
 }
 
-export const postsService: PostService = new PostService
+export const postService: PostService = new PostService
