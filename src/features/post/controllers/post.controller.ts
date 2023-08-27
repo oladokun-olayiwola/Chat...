@@ -11,12 +11,12 @@ import { uploads } from "@global/helpers/cloudinaryUpload";
 import { BadRequestError } from "@global/helpers/error-handler";
 import { UploadApiResponse } from "cloudinary";
 
-
 const postCache: PostCache = new PostCache();
 export class Create {
   @joiValidation(postSchema)
   public async post(req: Request, res: Response): Promise<void> {
-    const { post, bgColor, privacy, gifUrl, profilePicture, feelings } = req.body;
+    const { post, bgColor, privacy, gifUrl, profilePicture, feelings } =
+      req.body;
 
     const postObjectId: ObjectId = new ObjectId();
     const createdPost: IPostDocument = {
@@ -49,7 +49,7 @@ export class Create {
     });
     res
       .status(StatusCodes.CREATED)
-      .json({ message: "Post Created Successfully" });
+      .json({ message: "Post Created Successfully!" });
   }
 
   @joiValidation(postSchema)
