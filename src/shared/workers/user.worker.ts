@@ -4,7 +4,10 @@ import { createLogger } from "@global/helpers/logger";
 import { AddUserData } from "@services/db/user.service";
 const log: Logger = createLogger("Auth Worker");
 
-export const addUserToDb = async (job: Job, done: DoneCallback): Promise<void> => {
+export const addUserToDb = async (
+  job: Job,
+  done: DoneCallback
+): Promise<void> => {
   try {
     const { value } = job.data;
     await AddUserData(value);
