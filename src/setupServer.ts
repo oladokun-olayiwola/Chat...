@@ -10,7 +10,7 @@ export const createSocketIO = async (
   const io = new Server(httpServer, {
     cors: {
       origin: "*",
-      methods: ["GET", "POST", "PUT", "PATCH"],
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     },
   });
   const pubClient = createClient({ url: process.env.REDIS_HOST });
