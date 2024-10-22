@@ -43,7 +43,7 @@ export class Create {
       uId: `${req.currentUser!.uId}`,
       createdPost,
     });
-    postQueue.addPostJob("addPostToDB", {
+    postQueue.addPostJob("addPostToDb", {
       key: req.currentUser!.userId,
       value: createdPost,
     });
@@ -92,7 +92,7 @@ export class Create {
       uId: `${req.currentUser!.uId}`,
       createdPost,
     });
-    postQueue.addPostJob("addPostToDB", {
+    postQueue.addPostJob("addPostToDb", {
       key: req.currentUser!.userId,
       value: createdPost,
     });

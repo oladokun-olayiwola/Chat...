@@ -9,8 +9,8 @@ export const savePostToDb = async (
   done: DoneCallback
 ): Promise<void> => {
   try {
-    const { value, key } = job.data;
-    await postService.addPostToDB(value, key);
+    const { key, value } = job.data;
+    await postService.addPostToDB(key, value);
     job.progress(100);
     done(null, job.data);
   } catch (error) {
