@@ -1,16 +1,16 @@
 import Joi, { ObjectSchema } from 'joi';
 
 const loginSchema: ObjectSchema = Joi.object().keys({
-  username: Joi.string().required().min(4).max(8).messages({
+  username: Joi.string().required().min(3).max(15).messages({
     'string.base': 'Username must be of type string',
-    'string.min': 'Invalid username',
-    'string.max': 'Invalid username',
+    'string.min': 'Username is too short. It should be at least 3 characters.',
+    'string.max': 'Username is too long. It should be at most 15 characters.',
     'string.empty': 'Username is a required field'
   }),
-  password: Joi.string().required().min(4).max(8).messages({
+  password: Joi.string().required().min(3).max(30).messages({
     'string.base': 'Password must be of type string',
-    'string.min': 'Invalid password',
-    'string.max': 'Invalid password',
+    'string.min': 'Password is too short. It should be at least 3 characters.',
+    'string.max': 'Password is too long. It should be at least 30 characters.',
     'string.empty': 'Password is a required field'
   })
 });
