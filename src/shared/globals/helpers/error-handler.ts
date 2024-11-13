@@ -12,14 +12,14 @@ export interface IError {
     statusCode: number,
     status: string,
 }
+export class CustomError extends Error {
+    status: string;
+    statusCode: number;
 
-
- export class CustomError extends Error {
-    status!: string;
-    statusCode!: number;
-
-    constructor (message: string) {
+    constructor(message: string, statusCode: number = 500, status: string = "error") {
         super(message);
+        this.status = status;
+        this.statusCode = statusCode;
     }
 
     serializeErrors(): IError {
@@ -27,7 +27,7 @@ export interface IError {
             message: this.message,
             statusCode: this.statusCode,
             status: this.status
-        }
+        };
     }
 }
 
