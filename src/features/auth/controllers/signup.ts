@@ -5,7 +5,7 @@ import { signupSchema } from "@auth/schemes/signup";
 import { IAuthDocument, ISignUpData } from "@auth/interfaces/auth.interface";
 import { getUserByUsernameOrEmail } from "@services/db/auth.service";
 import { UploadApiResponse } from "cloudinary";
-import { uploads } from "@global/helpers/cloudinaryUpload";
+import { uploads } from "@global/helpers/cloudinary-upload";
 import HTTP_STATUS from "http-status-codes";
 import { IUserDocument } from "@user/interfaces/user.interface";
 import { UserCache } from "@services/redis/user.cache";

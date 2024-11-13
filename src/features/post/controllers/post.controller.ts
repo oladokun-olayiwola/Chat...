@@ -7,7 +7,7 @@ import { StatusCodes } from "http-status-codes";
 import { PostCache } from "@services/redis/post.cache";
 import { socketIOPostObject } from "@socket/posts";
 import { postQueue } from "@services/queues/post.queue";
-import { uploads } from "@global/helpers/cloudinaryUpload";
+import { uploads } from "@global/helpers/cloudinary-upload";
 import { BadRequestError } from "@global/helpers/error-handler";
 import { UploadApiResponse } from "cloudinary";
 
@@ -59,6 +59,8 @@ export class Create {
     const result: UploadApiResponse = (await uploads(
       image
     )) as UploadApiResponse;
+    console.log(result);
+    
     if (!result?.public_id) {
       throw new BadRequestError(result?.message);
     }
