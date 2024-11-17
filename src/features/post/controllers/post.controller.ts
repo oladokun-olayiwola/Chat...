@@ -58,9 +58,7 @@ export class Create {
       req.body;
     const result: UploadApiResponse = (await uploads(
       image
-    )) as UploadApiResponse;
-    console.log(result);
-    
+    )) as UploadApiResponse;    
     if (!result?.public_id) {
       throw new BadRequestError(result?.message);
     }
