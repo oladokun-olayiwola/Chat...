@@ -10,7 +10,7 @@ const loginSchema: ObjectSchema = Joi.object().keys({
   password: Joi.string().required().min(3).max(30).messages({
     'string.base': 'Password must be of type string',
     'string.min': 'Password is too short. It should be at least 3 characters.',
-    'string.max': 'Password is too long. It should be at least 30 characters.',
+    'string.max': 'Password is too long. It should be at most 30 characters.',
     'string.empty': 'Password is a required field'
   })
 });
