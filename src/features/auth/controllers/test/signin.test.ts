@@ -15,8 +15,8 @@ const USERNAME = "Manny";
 const PASSWORD = "manny1";
 const WRONG_USERNAME = "ma";
 const WRONG_PASSWORD = "ma";
-const LONG_PASSWORD = "mathematics1";
-const LONG_USERNAME = "mathematics";
+const LONG_PASSWORD = "3t3jYTjPyqt0msghftNlGxKpFzmoW6oG";
+const LONG_USERNAME = "extraterrestialss";
 
 jest.useFakeTimers();
 jest.mock("@services/queues/base.queue");
@@ -56,7 +56,7 @@ describe("SignIn", () => {
     const res: Response = authMockResponse();
     SignIn.prototype.read(req, res).catch((error: CustomError) => {
       expect(error.statusCode).toEqual(400);
-      expect(error.serializeErrors().message).toEqual("Invalid username");
+      expect(error.serializeErrors().message).toEqual("Username is too short. It should be at least 3 characters.");
     });
   });
 
@@ -68,7 +68,7 @@ describe("SignIn", () => {
     const res: Response = authMockResponse();
     SignIn.prototype.read(req, res).catch((error: CustomError) => {
       expect(error.statusCode).toEqual(400);
-      expect(error.serializeErrors().message).toEqual("Invalid username");
+      expect(error.serializeErrors().message).toEqual("Username is too long. It should be at most 15 characters.");
     });
   });
 
@@ -94,7 +94,7 @@ describe("SignIn", () => {
     const res: Response = authMockResponse();
     SignIn.prototype.read(req, res).catch((error: CustomError) => {
       expect(error.statusCode).toEqual(400);
-      expect(error.serializeErrors().message).toEqual("Invalid password");
+      expect(error.serializeErrors().message).toEqual("Password is too short. It should be at least 3 characters.");
     });
   });
 
@@ -106,7 +106,7 @@ describe("SignIn", () => {
     const res: Response = authMockResponse();
     SignIn.prototype.read(req, res).catch((error: CustomError) => {
       expect(error.statusCode).toEqual(400);
-      expect(error.serializeErrors().message).toEqual("Invalid password");
+      expect(error.serializeErrors().message).toEqual("Password is too long. It should be at most 30 characters.");
     });
   });
 
